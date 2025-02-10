@@ -1,0 +1,100 @@
+/* Center the entire sign-up page */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /*background-color: #f1f7fe;*/
+  }
+  
+  /* Main sign-up box */
+  .signup-box {
+    max-width: 300px;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 32px;
+    margin: 20px;
+  }
+  
+  /* Form styling */
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  /* Title and Subtitle */
+  .title {
+    font-weight: bold;
+    font-size: 1.6rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Form inputs */
+  .form-container {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 100%;
+  }
+  
+  .input {
+    width: 100%;
+    height: 40px;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    outline: none;
+  }
+  
+  /* Sign-up button */
+  .signup-button {
+    background-color: #0066ff;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-button:hover {
+    background-color: #005ce6;
+  }
+  
+  /* Bottom section with login link */
+  .form-section {
+    padding: 16px;
+    font-size: 0.85rem;
+    /*background-color: #e0ecfb;*/
+    box-shadow: rgb(0 0 0 / 8%) 0 -0px;
+  }
+  
+  .login-link {
+    font-weight: bold;
+    color: #0066ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .login-link:hover {
+    color: #005ce6;
+    text-decoration: underline;
+  }
+  
+  .error{
+    color: red;
+    padding: 5px;
+    border: 0px;
+    font-weight: 500;
+  }
