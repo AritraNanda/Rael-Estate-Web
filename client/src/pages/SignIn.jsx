@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify"; // ✅ Import toast
 import "react-toastify/dist/ReactToastify.css"; // ✅ Import toast styles
-import "./SignUp.css"; // Reusing the same styles
+import "./SignIn.css"; // Reusing the same styles
 import { useDispatch, useSelector } from 'react-redux'
 import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
+import OAuth from "../components/Oauth";
 
 export default function SignIn() {
     const [formData, setFormData] = useState({});
@@ -59,10 +60,10 @@ export default function SignIn() {
     };
 
     return (
-        <div className="signup-container">
+        <div className="signin-container">
             <ToastContainer position="top-right" autoClose={3000} /> {/* ✅ Toast Container */}
-            <div className="signup-box">
-                <form className="signup-form" onSubmit={handleSubmit}>
+            <div className="signin-box">
+                <form className="signin-form" onSubmit={handleSubmit}>
                     <span className="title">Sign in</span>
                     <span className="subtitle">Welcome back! Please log in.</span>
 
@@ -77,6 +78,11 @@ export default function SignIn() {
                 </form>
 
                 {error && <p className="error">Invalid credentials</p>}
+
+                <OAuth/>
+
+
+
 
                 <div className="form-section">
                     <p>

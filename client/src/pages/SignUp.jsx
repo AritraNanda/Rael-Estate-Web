@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify"; // ✅ Import toast
 import "react-toastify/dist/ReactToastify.css"; // ✅ Import toast styles
 import "./SignUp.css"; 
+import OAuth from "../components/Oauth";
 
 export default function SignUp() {
     const [formData, setFormData] = useState({});
@@ -70,6 +71,8 @@ export default function SignUp() {
                 </form>
 
                 {error && <p className="error">Email already exists</p>}
+
+                <OAuth/>
 
                 <div className="form-section">
                     <p>

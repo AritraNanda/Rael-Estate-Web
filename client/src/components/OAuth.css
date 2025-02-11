@@ -1,0 +1,36 @@
+.or {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+
+  .google_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;  /* Reduce gap slightly */
+    width: 100%;
+    padding: 12px 16px; /* Balanced padding for better proportions */
+    margin-bottom: 10px;
+    border: none;
+    background-color: rgb(236, 234, 234);
+    border-radius: 24px; /* Slightly more rounded corners for a smoother look */
+    font-weight: 600;
+    font-size: 0.95rem; /* Slightly smaller font size */
+    cursor: pointer;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .google_button:hover {
+    background-color: #e0dddd; /* Subtle hover effect */
+  }
+  
+  .google_button:active {
+    transform: scale(0.98);
+  }
+  
+  .google_button svg {
+    width: 22px; /* Slightly larger for better proportion */
+    height: 22px;
+  }

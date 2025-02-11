@@ -2,20 +2,21 @@
 .signin-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:center;
     height: 100vh;
     background-color: #f1f7fe;
   }
   
   /* Main sign-in box */
   .signin-box {
-    max-width: 300px;
+    max-width: 400px;
     background: #ffffff;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 32px;
+    margin: 20px;
   }
   
   /* Form styling */
@@ -53,6 +54,8 @@
     font-size: 0.9rem;
     outline: none;
   }
+
+  
   
   /* Sign-in button */
   .signin-button {
@@ -90,4 +93,6 @@
     color: #005ce6;
     text-decoration: underline;
   }
+  
+
   
