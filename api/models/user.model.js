@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar:{
         type: String,
-        default: ".../client/prodile.png"
+        default: "https://i.ibb.co/yncvwSRK/profile-circle-svgrepo-com.png"
     }
 }, {timestamps: true});
 

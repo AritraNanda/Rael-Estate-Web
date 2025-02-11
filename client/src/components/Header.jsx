@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
+import {useSelector} from "react-redux";
 
 export default function Header() {
   // State to toggle the mobile menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {currentUser} = useSelector(state=>state.user)
 
   return (
     <nav className="bg-white text-black shadow-md p-4 flex items-center justify-between w-full">
@@ -33,8 +35,17 @@ export default function Header() {
         <Link to="/about" className="text-gray-700 hover:text-blue-600">
           About
         </Link>
-        <Link to="/signin">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-md">Sign In</button>
+        <Link to="/profile">
+        {currentUser?(
+              <img 
+              src={currentUser.avatar} 
+              alt="Profile" 
+              className="w-7 h-7 rounded-full object-cover"
+            />
+            
+            ):(
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-md">Sign In</button>)
+            }
         </Link>
       </div>
 
@@ -59,8 +70,17 @@ export default function Header() {
           <Link to="/about" className="text-gray-700 hover:text-blue-600" onClick={() => setIsMenuOpen(false)}>
             About
           </Link>
-          <Link to="/signin" onClick={() => setIsMenuOpen(false)}>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-md">Sign In</button>
+          <Link to="/profile" onClick={() => setIsMenuOpen(false)}>
+            {currentUser?(
+              <img 
+              src={currentUser.avatar} 
+              alt="Profile" 
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            
+            ):(
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-md">Sign In</button>)
+            }
           </Link>
         </div>
       )}
