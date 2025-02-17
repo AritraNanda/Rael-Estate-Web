@@ -157,10 +157,10 @@ export default function Profile() {
           Update Profile
         </button>
 
-        <button className="mt-3 w-full flex items-center justify-center gap-2 bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
+        {/* <button className="mt-3 w-full flex items-center justify-center gap-2 bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold hover:bg-gray-300 transition">
           <FiLogOut className="text-xl" />
           Sign Out
-        </button>
+        </button> */}
 
         <button className="mt-3 w-full flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition">
           <MdDelete className="text-xl" />
