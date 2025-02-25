@@ -143,6 +143,7 @@ export default function Profile() {
           <label
             htmlFor="avatar"
             className="absolute bottom-0 right-1 bg-blue-600 text-white text-xs p-1 rounded-full cursor-pointer hover:bg-blue-700 transition"
+            title="edit"
           >
             ✎
           </label>
