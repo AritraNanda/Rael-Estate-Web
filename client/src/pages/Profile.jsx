@@ -188,7 +188,9 @@ export default function Profile() {
             id="email"
             defaultValue={currentUser?.email || "guest@example.com"}
             className="w-full border-2 border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onChange={handleChange}
+            //onChange={handleChange}
+            readOnly
+            title="You can't modify your email"
           />
         </div>
 
