@@ -288,7 +288,7 @@ export default function Profile() {
           >
             <h2 className="text-xl font-bold text-red-600 mb-4">Delete Account</h2>
             <p className="text-gray-700 mb-6">
-              Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
+              <b>Are you sure</b> you want to delete your account? This action <b>can not be undone</b> and all your data will be permanently removed.
             </p>
             <div className="flex justify-end gap-3">
               <button 
