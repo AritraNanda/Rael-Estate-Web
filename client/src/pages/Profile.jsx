@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { FiLogOut } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import supabase from '../supabase'; // Import Supabase
-import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/user/userSlice";
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +20,7 @@ export default function Profile() {
     currentUser?.avatar || "https://i.ibb.co/yncvwSRK/profile-circle-svgrepo-com.png"
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // New state for delete confirmation modal
   const dispatch = useDispatch();
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
@@ -125,6 +126,38 @@ export default function Profile() {
       toast.error(error.message);
     }
   };
+
+
+  const confirmDeleteUser = () => {
+    // Open the delete confirmation modal
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        toast.error(data.message);
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      toast.success("Account deleted successfully");
+      // No need to close modal here as the user will be redirected after deletion
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+      toast.error(error.message);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+  };
   
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
@@ -218,13 +251,16 @@ export default function Profile() {
           Update Profile
         </button>
 
-        <button className="mt-3 w-full flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition">
+        <button 
+          onClick={confirmDeleteUser} 
+          className="mt-3 w-full flex items-center justify-center gap-2 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+        >
           <MdDelete className="text-xl" />
           Delete Account
         </button>
       </div>
 
-      {/* Image Modal */}
+      {/* Image Preview Modal */}
       {isModalOpen && (
         <div 
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 backdrop-blur-md"
@@ -237,6 +273,37 @@ export default function Profile() {
               className="w-64 h-64 rounded-full object-cover"
               onClick={(e) => e.stopPropagation()}
             />
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div 
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 backdrop-blur-md"
+        >
+          <div 
+            className="bg-white rounded-lg p-6 max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold text-red-600 mb-4">Delete Account</h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={cancelDelete}
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleDeleteUser}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center gap-1"
+              >
+                <MdDelete /> Delete
+              </button>
+            </div>
           </div>
         </div>
       )}
