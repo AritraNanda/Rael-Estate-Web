@@ -77,7 +77,7 @@ export default function SignUp() {
                 <div className="form-section">
                     <p>
                         Have an account?{" "}
-                        <Link to="/signin" className="login-link">
+                        <Link to="/buyer/signin" className="login-link">
                             Sign in
                         </Link>
                     </p>

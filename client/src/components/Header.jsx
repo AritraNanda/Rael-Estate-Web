@@ -23,25 +23,25 @@ export default function Header() {
 
   // Function to handle sign-out
   const handleSignOut = async () => {
-    try {
-      dispatch(signOutUserStart());
-      const res = await fetch('/api/auth/signout', {
-        method: 'POST', // Use POST method
-        credentials: 'include', // Include cookies in the request
-      });
-      const data = await res.json();
-      console.log("Sign Out Response:", data); // Log the response
-      
-      if (data.success === false) {
-        dispatch(signOutUserFailure(data.message));
-        return;
-      }
-      dispatch(signOutUserSuccess());
-    } catch (error) {
-      console.error("Sign Out Error:", error); // Log any errors
-      dispatch(signOutUserFailure(error.message));
+  try {
+    dispatch(signOutUserStart());
+    const res = await fetch('/api/auth/signout', {
+      method: 'POST', // Use POST method
+      credentials: 'include', // Include cookies in the request
+    });
+    const data = await res.json();
+    console.log("Sign Out Response:", data); // Log the response
+    
+    if (data.success === false) {
+      dispatch(signOutUserFailure(data.message));
+      return;
     }
-  };
+    dispatch(signOutUserSuccess());
+  } catch (error) {
+    console.error("Sign Out Error:", error); // Log any errors
+    dispatch(signOutUserFailure(error.message));
+  }
+};
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -81,10 +81,10 @@ export default function Header() {
 
       {/* Navigation Links */}
       <div className="hidden md:flex items-center space-x-6">
-        <Link to="/" className="text-gray-700 hover:text-blue-600">
+        <Link to="/buyer/" className="text-gray-700 hover:text-blue-600">
           Home
         </Link>
-        <Link to="/about" className="text-gray-700 hover:text-blue-600">
+        <Link to="/buyer/about" className="text-gray-700 hover:text-blue-600">
           About
         </Link>
 
@@ -103,7 +103,7 @@ export default function Header() {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50">
                   <Link
-                    to="/profile"
+                    to="/buyer/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                     onClick={() => setIsDropdownOpen(false)}
                   >
@@ -121,7 +121,7 @@ export default function Header() {
               )}
             </div>
           ) : (
-            <Link to="/profile">
+            <Link to="/buyer/profile">
               <button className="bg-blue-600 text-white px-4 py-2 rounded-md">
                 Sign In
               </button>
@@ -146,14 +146,14 @@ export default function Header() {
       {isMenuOpen && (
         <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md p-4 flex flex-col space-y-4">
           <Link
-            to="/"
+            to="/buyer/"
             className="text-gray-700 hover:text-blue-600 font-bold"
             onClick={() => setIsMenuOpen(false)}
           >
             Home
           </Link>
           <Link
-            to="/about"
+            to="/buyer/about"
             className="text-gray-700 hover:text-blue-600 font-bold"
             onClick={() => setIsMenuOpen(false)}
           >
@@ -171,7 +171,7 @@ export default function Header() {
               />
 
               <Link
-                to="/profile"
+                to="/buyer/profile"
                 className="text-gray-700 hover:text-blue-600 flex items-center gap-2"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -188,7 +188,7 @@ export default function Header() {
             </>
           ) : (
             <Link
-              to="/profile"
+              to="/buyer/profile"
               className="text-gray-700 hover:text-blue-600"
               onClick={() => setIsMenuOpen(false)}
             >

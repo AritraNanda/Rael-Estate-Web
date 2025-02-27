@@ -49,7 +49,7 @@ export default function SignIn() {
             // setError(null);
             dispatch(signInSuccess(data)); //redux added
             toast.success("Login successful! Redirecting..."); // ✅ Success message
-            setTimeout(() => navigate("/"), 2000); // Redirect to home page after 2 seconds
+            setTimeout(() => navigate("/buyer/"), 2000); // Redirect to home page after 2 seconds
             
         } catch (error) {
             // setLoading(false);
@@ -87,7 +87,7 @@ export default function SignIn() {
                 <div className="form-section">
                     <p>
                         Don't have an account?{" "}
-                        <Link to="/signup" className="login-link">
+                        <Link to="/buyer/signup" className="login-link">
                             Sign up
                         </Link>
                     </p>
