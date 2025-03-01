@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function About(){
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto text-center">
         <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -127,6 +127,17 @@ export default function About(){
             <p className="mt-2 text-gray-600">Real Estate Agent</p>
           </div>
 
+          {/* Team Member 3 */}
+          {/* <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <img
+              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              alt="Team Member"
+              className="w-32 h-32 mx-auto rounded-full object-cover"
+            />
+            <h3 className="mt-4 text-xl font-bold text-gray-900">Emily Clark</h3>
+            <p className="mt-2 text-gray-600">Marketing Specialist</p>
+          </div> */}
+
         </div>
 
 
@@ -140,7 +151,7 @@ export default function About(){
         <p className="mt-4 text-lg text-blue-100">
           Let us help you make your real estate dreams a reality.
         </p>
-        <Link to='/buyer/'>
+        <Link to='/seller/'>
         <button className="mt-8 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
           Get Started
         </button>
