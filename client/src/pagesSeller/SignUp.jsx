@@ -23,7 +23,7 @@ export default function SignUp() {
 
         try {
             setLoading(true);
-            const res = await fetch('/api/auth/signup', {
+            const res = await fetch('/api/auth/signup2', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export default function SignUp() {
             setLoading(false);
             setError(null);
             toast.success("Account created successfully! Redirecting..."); // ✅ Success message
-            setTimeout(() => navigate("/buyer/signin"), 2000); // Redirect after 2 seconds
+            setTimeout(() => navigate("/seller/signin"), 2000); // Redirect after 2 seconds
             
         } catch (error) {
             setLoading(false);
@@ -77,7 +77,7 @@ export default function SignUp() {
                 <div className="form-section">
                     <p>
                         Have an account?{" "}
-                        <Link to="/buyer/signin" className="login-link">
+                        <Link to="/seller/signin" className="login-link">
                             Sign in
                         </Link>
                     </p>

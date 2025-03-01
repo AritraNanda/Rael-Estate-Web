@@ -27,14 +27,14 @@ const Landing = () => {
               Explore Properties
               <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
             </Link>
-            <a
-              href="#"
+            <Link
+              to='/seller/'
               className="inline-flex items-center justify-center px-6 py-3 border-2 border-green-500 text-base font-medium rounded-full text-green-500 bg-white hover:bg-blue-50 transition-all shadow-[0_4px_14px_0_rgba(0,102,255,0.39)] hover:shadow-[0_6px_20px_rgba(0,102,255,0.23)] hover:transform hover:translate-y-[-1px]"
               aria-label="Save the Planet"
             >
               List Properties
               <Home className="ml-2 h-5 w-5 text-green-500" aria-hidden="true" />
-            </a>
+            </Link>
           </nav>
 
           <div className="flex flex-wrap justify-center gap-4 mb-8">

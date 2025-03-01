@@ -33,7 +33,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Landing from './components/landing';
 import BuyerLayout from './layouts/BuyerLayout';
-// import SellerLayout from './layouts/SellerLayout';
+import SellerLayout from './layouts/SellerLayout';
 
 export default function App() {
   return (
@@ -46,7 +46,7 @@ export default function App() {
         <Route path="/buyer/*" element={<BuyerLayout />} />
 
         {/* Seller Routes */}
-        {/* <Route path="/seller/*" element={<SellerLayout />} /> */}
+        <Route path="/seller/*" element={<SellerLayout />} />
       </Routes>
     </BrowserRouter>
   );
