@@ -343,10 +343,10 @@ export default function CreateListing() {
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="regularPrice" className="block text-sm font-medium text-gray-700 mb-1">
-                      Regular Price {formData.type === 'rent' && <span className="text-sm text-gray-500">($ / month)</span>}
+                      Regular Price {formData.type === 'rent' && <span className="text-sm text-gray-500">(₹ / month)</span>}
                     </label>
                     <div className="flex">
-                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">$</span>
+                      <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">₹</span>
                       <input
                         type="number"
                         id="regularPrice"
@@ -362,10 +362,10 @@ export default function CreateListing() {
                   {formData.offer && (
                     <div>
                       <label htmlFor="discountPrice" className="block text-sm font-medium text-gray-700 mb-1">
-                        Discounted Price {formData.type === 'rent' && <span className="text-sm text-gray-500">($ / month)</span>}
+                        Discounted Price {formData.type === 'rent' && <span className="text-sm text-gray-500">(₹ / month)</span>}
                       </label>
                       <div className="flex">
-                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">$</span>
+                        <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500">₹</span>
                         <input
                           type="number"
                           id="discountPrice"
@@ -508,7 +508,7 @@ export default function CreateListing() {
             <div className="flex justify-end">
               <button
                 type="button"
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/seller/')}
                 className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-3"
               >
                 Cancel
