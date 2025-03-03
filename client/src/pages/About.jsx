@@ -108,7 +108,7 @@ export default function About(){
           {/* Team Member 2 */}
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <img
-              src="https://media.licdn.com/dms/image/v2/D4E03AQFj2UbgcOz7FQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1702515824609?e=1746057600&v=beta&t=YjEysPl-F8l8D_qhQppZ7Z_Mynt_OrKIMLJ00lMUpvw"
+              src="https://iili.io/326na6b.jpg"
               alt="Team Member"
               className="w-32 h-32 mx-auto rounded-full object-cover"
             />

@@ -6,6 +6,8 @@ import SignUp from '../pagesSeller/SignUp';
 import About from '../pagesSeller/About';
 import Profile from '../pagesSeller/Profile';
 import CreateListing from '../pagesSeller/CreateListing';
+import SubscriptionPage from '../pagesSeller/SubscriptionPage';
+
 import PrivateRouteSeller from '../components/privateRouteSeller';
 
 const SellerLayout = () => {
@@ -21,6 +23,7 @@ const SellerLayout = () => {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path='/create-listing' element={<CreateListing/>} />
+          <Route path='/subscription' element={<SubscriptionPage/>} />
         </Route>
       </Routes>
     </>
