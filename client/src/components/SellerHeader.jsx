@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FiLogOut, FiUser } from "react-icons/fi"; 
+import { FiLogOut, FiUser, FiList } from "react-icons/fi"; 
 import { useSelector, useDispatch } from "react-redux";
 import {
   signOutSellerStart,
@@ -92,6 +92,14 @@ export default function Header() {
                     <FiUser className="text-xl" />
                     Profile
                   </Link>
+                  <Link
+                    to="/seller/my-listings"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <FiList className="text-xl" />
+                    My Listings
+                  </Link>
                   <button
                     className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                     onClick={handleSignOut}
@@ -165,6 +173,14 @@ export default function Header() {
               >
                 <FiUser className="text-xl" />
                 Profile
+              </Link>
+              <Link
+                to="/seller/my-listings"
+                className="text-gray-700 hover:text-blue-600 flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FiList className="text-xl" />
+                My Listings
               </Link>
               <button
                 className="text-gray-700 hover:text-blue-600 flex items-center gap-2"
