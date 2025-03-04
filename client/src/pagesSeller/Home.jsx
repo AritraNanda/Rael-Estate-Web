@@ -31,7 +31,7 @@ export default function Home() {
                 </button>
                 </Link>
 
-                <Link to='/buyer/signin/'>
+                <Link to='/buyer/'>
                 <button
                     className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
                     onClick={() => {/* Add functionality to switch to buyer account */}}
@@ -126,7 +126,7 @@ export default function Home() {
             <div className="bg-blue-600 p-8 rounded-lg shadow-md max-w-6xl w-full text-center mb-5">
                 <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
                 <p className="text-white text-lg mb-6">List your property in EstateBro today and take the first step toward selling or renting your property.</p>
-                <Link to='/'>
+                <Link to='/seller/guide'>
                 <button
                     className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition duration-300"
                     onClick={() => {/* Add functionality to sign up */}}

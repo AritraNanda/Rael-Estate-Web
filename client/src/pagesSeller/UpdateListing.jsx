@@ -187,7 +187,7 @@ export default function UpdateListing() {
         return;
       }
       toast.success("Property updated successfully");
-      setTimeout(() => navigate("/my-listings"), 2000); 
+      setTimeout(() => navigate("/seller/my-listings"), 2000); 
     } catch (error) {
       setError('Failed to update listing');
       setLoading(false);

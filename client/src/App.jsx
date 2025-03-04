@@ -1,41 +1,29 @@
-// import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import Home from './pages/Home';
-// import SignIn from './pages/SignIn';
-// import SignUp from './pages/SignUp';
-// import About from './pages/About';
-// import Profile from './pages/Profile';
-// import Header from './components/Header';
-// import PrivateRoute from './components/privateRoute';
-
-// import Landing from './components/landing';
-
-// export default function App(){
-//   return(
-//     <BrowserRouter>
-//       <Header />
-//       <Routes>
-//         <Route path="/" element={<Home/>}/>
-//         <Route path="/signin" element={<SignIn/>}/>
-//         <Route path="/signup" element={<SignUp/>}/>
-//         <Route path="/about" element={<About/>}/>
-//         <Route element={<PrivateRoute/>}>
-//           <Route path="/profile" element={<Profile/>}/>
-//         </Route>
-
-//         <Route path="/landing" element={<Landing/>}/>
-
-//       </Routes>
-//     </BrowserRouter>
-//   )
-// }
-
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Landing from './components/landing';
 import BuyerLayout from './layouts/BuyerLayout';
 import SellerLayout from './layouts/SellerLayout';
+import { useEffect, useState } from 'react';
+import Preloader from './components/Preloader';
+
 
 export default function App() {
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial loading time
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Show preloader for 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Preloader />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>

@@ -63,6 +63,12 @@ export default function Header() {
         <Link to="/seller/about" className="text-gray-700 hover:text-blue-600">
           About
         </Link>
+        <Link to="/seller/guide" className="text-gray-700 hover:text-blue-600">
+          Guide
+        </Link>
+        <Link to="/seller/contact-support" className="text-gray-700 hover:text-blue-600">
+          Contact
+        </Link>
 
         {/* Create Listing Button (YouTube Style) */}
         <Link to="/seller/create-listing">
@@ -155,6 +161,20 @@ export default function Header() {
             onClick={() => setIsMenuOpen(false)}
           >
             About
+          </Link>
+          <Link
+            to="/seller/guide"
+            className="text-gray-700 hover:text-blue-600 font-bold"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Guide
+          </Link>
+          <Link
+            to="/seller/contact-support"
+            className="text-gray-700 hover:text-blue-600 font-bold"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Contact
           </Link>
 
           {/* Profile and Sign Out Options */}

@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdDelete } from 'react-icons/md';
 
 export default function MyListings() {
   const [userListings, setUserListings] = useState([]);
   const [showListingsError, setShowListingsError] = useState(false);
-  //const { currentUser } = useSelector((state) => state.user);
-  const { currentSeller } = useSelector((state) => state.seller); 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [listingToDelete, setListingToDelete] = useState(null);
+  const { currentSeller } = useSelector((state) => state.seller);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -28,10 +29,16 @@ export default function MyListings() {
     fetchListings();
   }, [currentSeller._id]);
 
+  const confirmDelete = (listing) => {
+    setListingToDelete(listing);
+    setIsDeleteModalOpen(true);
+  };
 
-    const handleListingDelete = async (listingId) => {
+  const handleListingDelete = async () => {
+    if (!listingToDelete) return;
+
     try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
+      const res = await fetch(`/api/listing/delete/${listingToDelete._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -41,13 +48,19 @@ export default function MyListings() {
       }
 
       setUserListings((prev) =>
-        prev.filter((listing) => listing._id !== listingId)
+        prev.filter((listing) => listing._id !== listingToDelete._id)
       );
+      setIsDeleteModalOpen(false);
+      setListingToDelete(null);
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  const cancelDelete = () => {
+    setIsDeleteModalOpen(false);
+    setListingToDelete(null);
+  };
 
   return (
     <div className='p-3 max-w-4xl mx-auto'>
@@ -87,7 +100,7 @@ export default function MyListings() {
                 </Link>
               
                 <button
-                  onClick={() => handleListingDelete(listing._id)}
+                  onClick={() => confirmDelete(listing)}
                   className='text-red-700 hover:text-red-900 p-2 rounded-full hover:bg-red-100 transition'
                   title="Delete listing"
                 >
@@ -96,6 +109,37 @@ export default function MyListings() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div 
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex justify-center items-center z-50 backdrop-blur-md"
+        >
+          <div 
+            className="bg-white rounded-lg p-6 max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold text-red-600 mb-4">Delete Listing</h2>
+            <p className="text-gray-700 mb-6">
+              <b>Are you sure</b> you want to delete "{listingToDelete?.name}"? This action <b>cannot be undone</b>.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={cancelDelete}
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleListingDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center gap-1"
+              >
+                <MdDelete /> Delete
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
