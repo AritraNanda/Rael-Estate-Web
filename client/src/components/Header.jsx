@@ -8,6 +8,7 @@ import {
   signOutUserSuccess, 
   signOutUserFailure 
 } from '../redux/user/userSlice'
+import { FaRegHeart } from "react-icons/fa";
 
 export default function Header() {
   // State to toggle the mobile menu
@@ -139,6 +140,16 @@ export default function Header() {
                           <FiUser className="text-xl" /> {/* Profile icon */}
                           Profile
                         </Link>
+                        <Link
+                          to="/buyer/saved-properties"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          <div className="flex items-center gap-2">
+                            <FaRegHeart className="text-xl text-gray-700" />
+                            Saved Properties
+                          </div>
+                        </Link>
                         <button
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
                           onClick={handleSignOut}
@@ -209,6 +220,16 @@ export default function Header() {
                 >
                   <FiUser className="text-xl" /> {/* Profile icon */}
                   Profile
+                </Link>
+                <Link
+                  to="/buyer/saved-properties"
+                  className="text-gray-700 hover:text-blue-600 flex items-center gap-2"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <div className="flex items-center gap-2">
+                    <FaRegHeart className="text-xl text-gray-700" />
+                    Saved Properties
+                  </div>
                 </Link>
                 <button
                   className="text-gray-700 hover:text-blue-600 flex items-center gap-2"

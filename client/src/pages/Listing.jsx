@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Navigation, Pagination, EffectFade } from 'swiper/modules';
@@ -27,8 +27,10 @@ export default function Listing() {
   const [copied, setCopied] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [contact, setContact] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -71,6 +73,56 @@ export default function Listing() {
 
     fetchListing();
   }, [params.id]);
+
+  useEffect(() => {
+    const checkIfSaved = async () => {
+      if (!currentUser) return;
+      try {
+        const res = await fetch(`/api/saved/check/${params.id}`);
+        const data = await res.json();
+        setIsSaved(data.isSaved);
+      } catch (error) {
+        console.error('Error checking saved status:', error);
+      }
+    };
+
+    if (listing?._id) {
+      checkIfSaved();
+    }
+  }, [listing?._id, currentUser]);
+
+  const handleSaveProperty = async () => {
+    if (!currentUser) {
+      navigate('/sign-in');
+      return;
+    }
+
+    try {
+      if (isSaved) {
+        const res = await fetch(`/api/saved/unsave/${listing._id}`, {
+          method: 'DELETE',
+        });
+        const data = await res.json();
+        if (data.success) {
+          setIsSaved(false);
+        }
+      } else {
+        const res = await fetch('/api/saved/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ listingId: listing._id }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setIsSaved(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error saving/unsaving property:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -130,16 +182,18 @@ export default function Listing() {
 
           {/* Action Buttons */}
           <div className="absolute top-4 right-4 z-10 flex gap-3">
-            <button
-              onClick={() => setFavorite(!favorite)}
-              className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all transform hover:scale-110 hover:shadow-xl"
-            >
-              {favorite ? (
-                <FaHeart className="text-red-500 text-xl" />
-              ) : (
-                <FaRegHeart className="text-gray-600 text-xl" />
-              )}
-            </button>
+            {currentUser && (
+              <button
+                onClick={handleSaveProperty}
+                className="p-3 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all transform hover:scale-110 hover:shadow-xl"
+              >
+                {isSaved ? (
+                  <FaHeart className="text-red-500 text-xl" />
+                ) : (
+                  <FaRegHeart className="text-gray-600 text-xl" />
+                )}
+              </button>
+            )}
             <button
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);

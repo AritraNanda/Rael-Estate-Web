@@ -7,6 +7,7 @@ import About from '../pages/About';
 import Profile from '../pages/Profile';
 import Listing from '../pages/Listing';
 import ContactSupport from '../pages/ContactSupport';
+import SavedProperties from '../pages/SavedProperties';
 
 import PrivateRoute from '../components/PrivateRoute';
 
@@ -21,6 +22,7 @@ const BuyerLayout = () => {
         <Route path="/about" element={<About />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/saved-properties" element={<SavedProperties />} />
         </Route>
         <Route path="/listing/:id" element={<Listing />} />
         <Route path="/contact-support" element={<ContactSupport />} />
