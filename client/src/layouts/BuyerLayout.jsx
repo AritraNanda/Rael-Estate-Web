@@ -5,6 +5,9 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import About from '../pages/About';
 import Profile from '../pages/Profile';
+import Listing from '../pages/Listing';
+import ContactSupport from '../pages/ContactSupport';
+
 import PrivateRoute from '../components/PrivateRoute';
 
 const BuyerLayout = () => {
@@ -19,6 +22,8 @@ const BuyerLayout = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
+        <Route path="/listing/:id" element={<Listing />} />
+        <Route path="/contact-support" element={<ContactSupport />} />
       </Routes>
     </>
   );
