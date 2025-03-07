@@ -299,7 +299,6 @@ export default function Search() {
                 </div>
               )}
             </div>
-            <p>Main</p>
           </div>
         </div>
       </div>
