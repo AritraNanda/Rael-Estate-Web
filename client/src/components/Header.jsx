@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiLogOut, FiUser } from "react-icons/fi"; // Import FiUser for profile icon
@@ -9,6 +9,7 @@ import {
   signOutUserFailure 
 } from '../redux/user/userSlice'
 import { FaRegHeart } from "react-icons/fa";
+import { FaSearch } from 'react-icons/fa';
 
 export default function Header() {
   // State to toggle the mobile menu
@@ -17,6 +18,8 @@ export default function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   // Ref for the dropdown menu
   const dropdownRef = useRef(null);
@@ -36,6 +39,15 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Sync search term with URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
 
   // Function to handle sign-out
   const handleSignOut = async () => {
@@ -76,6 +88,15 @@ export default function Header() {
     };
   }, []);
 
+  // Handle search form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('searchTerm', searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/buyer/search?${searchQuery}`);
+  };
+
   return (
     <>
       {/* Spacer div to prevent content jump when header becomes fixed */}
@@ -98,13 +119,17 @@ export default function Header() {
             <div className={`flex-1 mx-4 max-w-md relative transition-all duration-300 ${
               isScrolled ? 'md:scale-95' : ''
             }`}>
-              <input
-                type="text"
-                placeholder="Search..."
-                aria-label="Search"
-                className="bg-gray-100 pl-10 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <Search className="absolute left-3 top-3 text-gray-500" size={20} />
+              <form onSubmit={handleSubmit} className='relative'>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  aria-label="Search"
+                  className="bg-gray-100 pl-10 py-2 px-3 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <Search className="absolute left-3 top-3 text-gray-500" size={20} />
+              </form>
             </div>
 
             {/* Desktop Navigation */}
