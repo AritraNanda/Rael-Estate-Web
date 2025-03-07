@@ -15,7 +15,7 @@ export default function App() {
     // Simulate initial loading time
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // Show preloader for 2 seconds
+    }, 1000); // Show preloader for 1 seconds
 
     return () => clearTimeout(timer);
   }, []);

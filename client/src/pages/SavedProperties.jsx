@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaHeart, FaMapMarkerAlt, FaBed, FaBath } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import Preloader from '../components/Preloader';
 
 export default function SavedProperties() {
   const [loading, setLoading] = useState(true);
@@ -62,11 +63,7 @@ export default function SavedProperties() {
   };
 
   if (loading) {
-    return (
-      <div className='flex justify-center items-center min-h-screen'>
-        <div className='animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600'></div>
-      </div>
-    );
+    return <Preloader />;
   }
 
   if (error) {

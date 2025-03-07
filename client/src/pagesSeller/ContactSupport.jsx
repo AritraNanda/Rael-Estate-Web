@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { FaEnvelope, FaPhone, FaComments, FaQuestionCircle } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Preloader from '../components/Preloader';
 
 export default function ContactSupport() {
   const { currentSeller } = useSelector((state) => state.seller);
@@ -64,6 +65,10 @@ export default function ContactSupport() {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Preloader />;
+  }
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">

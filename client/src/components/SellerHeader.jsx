@@ -68,7 +68,7 @@ export default function Header() {
       <div className="h-[72px] md:block hidden" />
       
       <nav className={`bg-white text-black shadow-md md:fixed md:top-0 md:left-0 md:right-0 md:z-50 transition-all duration-300`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-all duration-300 ${
             isScrolled ? 'md:h-[56px]' : 'md:h-[72px]'
           } h-[72px]`}>

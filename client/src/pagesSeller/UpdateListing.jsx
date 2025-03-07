@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import supabase from '../supabase';
 import { toast, ToastContainer } from 'react-toastify';
+import Preloader from '../components/Preloader';
 
 export default function UpdateListing() {
     const { currentSeller } = useSelector((state) => state.seller); 
@@ -193,6 +194,10 @@ export default function UpdateListing() {
       setLoading(false);
     }
   };
+  
+  if (loading) {
+    return <Preloader />;
+  }
   
   return (
     <main className="min-h-screen py-8 px-4">
