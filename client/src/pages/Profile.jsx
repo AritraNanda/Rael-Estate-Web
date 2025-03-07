@@ -7,10 +7,12 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailur
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Preloader from '../components/Preloader';
 
 
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(true);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);  // Upload progress state
   const [fileUploading, setFileUploading] = useState(false); // Tracks if upload is in progress
@@ -25,6 +27,26 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   //console.log(formData);
+
+  useEffect(() => {
+    const initializeProfile = async () => {
+      try {
+        setLoading(true);
+        // Any initial data fetching can go here
+        setFormData({
+          username: currentUser?.username || '',
+          email: currentUser?.email || '',
+          password: '',
+        });
+      } catch (error) {
+        console.error('Error initializing profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeProfile();
+  }, [currentUser]);
 
   useEffect(() => {
     if (file) {
@@ -159,6 +181,10 @@ export default function Profile() {
     setIsDeleteModalOpen(false);
   };
   
+  if (loading) {
+    return <Preloader />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
       <ToastContainer position="top-right" autoClose={3000} />

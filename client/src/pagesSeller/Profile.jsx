@@ -14,9 +14,11 @@ import {
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Preloader from '../components/Preloader';
 
 export default function SellerProfile() {
   const { currentSeller } = useSelector((state) => state.seller); // Use currentSeller from sellerSlice
+  const [loading, setLoading] = useState(true);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);  // Upload progress state
   const [fileUploading, setFileUploading] = useState(false); // Tracks if upload is in progress
@@ -29,6 +31,26 @@ export default function SellerProfile() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // New state for delete confirmation modal
   const dispatch = useDispatch();
   const [updateSuccess, setUpdateSuccess] = useState(false);
+
+  useEffect(() => {
+    const initializeProfile = async () => {
+      try {
+        setLoading(true);
+        // Any initial data fetching can go here
+        setFormData({
+          username: currentSeller?.username || '',
+          email: currentSeller?.email || '',
+          password: '',
+        });
+      } catch (error) {
+        console.error('Error initializing profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeProfile();
+  }, [currentSeller]);
 
   useEffect(() => {
     if (file) {
@@ -160,6 +182,10 @@ export default function SellerProfile() {
   const cancelDelete = () => {
     setIsDeleteModalOpen(false);
   };
+
+  if (loading) {
+    return <Preloader />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">

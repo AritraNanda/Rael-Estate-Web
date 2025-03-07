@@ -75,7 +75,7 @@ export default function MyListings() {
               key={listing._id}
               className='border rounded-lg p-3 flex justify-between items-center gap-4 hover:shadow-md transition-shadow'
             >
-              <Link to={`/listing/${listing._id}`}>
+              <Link to={`/seller/listing-preview/${listing._id}`}>
                 <img
                   src={listing.imageUrls[0]}
                   alt='listing cover'
@@ -84,7 +84,7 @@ export default function MyListings() {
               </Link>
               <Link
                 className='text-slate-700 font-semibold hover:underline truncate flex-1'
-                to={`/listing/${listing._id}`}
+                to={`/seller/listing-preview/${listing._id}`}
               >
                 <p>{listing.name}</p>
               </Link>

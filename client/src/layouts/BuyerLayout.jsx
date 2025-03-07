@@ -9,6 +9,8 @@ import Listing from '../pages/Listing';
 import ContactSupport from '../pages/ContactSupport';
 import SavedProperties from '../pages/SavedProperties';
 import Search from '../pages/Search';
+import ListingItem from '../components/ListingItem';
+import GuideBuyer from '../pages/GuideBuyer';
 
 import PrivateRoute from '../components/PrivateRoute';
 
@@ -28,6 +30,8 @@ const BuyerLayout = () => {
         <Route path="/listing/:id" element={<Listing />} />
         <Route path="/contact-support" element={<ContactSupport />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/listing-item" element={<ListingItem />} />
+        <Route path="/guide-buyer" element={<GuideBuyer />} />
       </Routes>
     </>
   );

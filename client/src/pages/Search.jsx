@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import ListingItem from '../components/ListingItem';
+import ListingItem from '../components/ListingItem';
 import Preloader from '../components/Preloader';
 import { FaSearch, FaFilter, FaSort } from 'react-icons/fa';
 
@@ -111,7 +111,7 @@ export default function Search() {
     urlParams.set('sort', sidebardata.sort);
     urlParams.set('order', sidebardata.order);
     const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
+    navigate(`/buyer/search?${searchQuery}`);
   };
 
   const onShowMoreClick = async () => {
@@ -260,7 +260,7 @@ export default function Search() {
 
           {/* Main Content */}
           <div className='lg:w-3/4'>
-            {/* <div className='bg-white rounded-xl shadow-lg p-6'>
+            <div className='bg-white rounded-xl shadow-lg p-6'>
               <h1 className='text-2xl font-bold text-gray-900 mb-6'>
                 Search Results
                 {listings.length > 0 && (
@@ -298,7 +298,7 @@ export default function Search() {
                   </button>
                 </div>
               )}
-            </div> */}
+            </div>
             <p>Main</p>
           </div>
         </div>

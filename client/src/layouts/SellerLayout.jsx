@@ -11,6 +11,7 @@ import MyListings from '../pagesSeller/mylistings';
 import UpdateListing from '../pagesSeller/UpdateListing';
 import GuideSeller from '../pagesSeller/GuideSeller';
 import ContactSupport from '../pagesSeller/ContactSupport';
+import ListingPreview from '../pagesSeller/ListingPreview';
 
 import PrivateRouteSeller from '../components/privateRouteSeller';
 
@@ -32,6 +33,7 @@ const SellerLayout = () => {
           <Route path='/update-listing/:listingId' element={<UpdateListing/>} />
           <Route path='/guide' element={<GuideSeller/>} />
           <Route path='/contact-support' element={<ContactSupport/>} />
+          <Route path='/listing-preview/:listingId' element={<ListingPreview/>} />
         </Route>
       </Routes>
     </>

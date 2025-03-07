@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { FaEnvelope, FaPhone, FaComments, FaQuestionCircle } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaComments, FaQuestionCircle, FaSearch, FaHome, FaUserAlt } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Preloader from '../components/Preloader';
 
 export default function ContactSupport() {
-  const { currentSeller } = useSelector((state) => state.seller);
+  const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     subject: '',
     message: '',
@@ -16,20 +15,20 @@ export default function ContactSupport() {
 
   const faqs = [
     {
-      question: "How do I update my listing details?",
-      answer: "You can update your listing by going to 'My Listings', clicking the edit icon on the listing you want to modify, and making your changes in the update form."
+      question: "How do I search for properties?",
+      answer: "Use the search bar at the top of the page to find properties by location, price range, or property features. You can also use filters to refine your search results."
     },
     {
-      question: "What types of photos are recommended?",
-      answer: "Upload clear, high-resolution photos in landscape orientation. Include images of all rooms, exterior views, and any special features. Ensure good lighting and clean spaces."
+      question: "How can I contact a property owner?",
+      answer: "When viewing a property listing, click the 'Contact Agent' button to send a message directly to the property owner or agent."
     },
     {
-      question: "How long does it take to get a response?",
-      answer: "We typically respond to support inquiries within 24 hours during business days. For urgent matters, please mark your request as 'Urgent' in the category selection."
+      question: "Can I save my favorite properties?",
+      answer: "Yes! Click the heart icon on any property listing to save it to your favorites. You can view all saved properties in your profile."
     },
     {
-      question: "Can I delete my listing?",
-      answer: "Yes, you can delete your listing from the 'My Listings' page. Click the delete icon and confirm your action. Note that this cannot be undone."
+      question: "What should I know before scheduling a viewing?",
+      answer: "Before scheduling a viewing, verify the property details, location, and availability. Have your questions ready and be prepared to provide identification when meeting the agent."
     }
   ];
 
@@ -50,7 +49,6 @@ export default function ContactSupport() {
     try {
       setLoading(true);
       // Here you would typically make an API call to submit the support request
-      // For now, we'll simulate a successful submission
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast.success('Support request submitted successfully! We will contact you soon.');
@@ -66,22 +64,49 @@ export default function ContactSupport() {
     }
   };
 
-  if (loading) {
-    return <Preloader />;
-  }
-
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <ToastContainer position="top-right" autoClose={3000} />
       
       {/* Header */}
       <div className="max-w-7xl mx-auto text-center mb-12">
         <h1 className="text-4xl font-bold text-blue-600 mb-4">
-          Contact Support
+          How Can We Help?
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Need help? Our support team is here to assist you with any questions or concerns.
+          Our support team is here to help you find your perfect home and answer any questions along the way.
         </p>
+      </div>
+
+      {/* Quick Help Cards */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="bg-white rounded-xl shadow-sm p-6 flex items-start space-x-4">
+          <div className="bg-blue-100 rounded-full p-3">
+            <FaSearch className="text-blue-600 text-xl" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900">Search Help</h3>
+            <p className="text-sm text-gray-600">Tips for finding the perfect property</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm p-6 flex items-start space-x-4">
+          <div className="bg-blue-100 rounded-full p-3">
+            <FaHome className="text-blue-600 text-xl" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900">Property Guide</h3>
+            <p className="text-sm text-gray-600">Understanding property listings</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm p-6 flex items-start space-x-4">
+          <div className="bg-blue-100 rounded-full p-3">
+            <FaUserAlt className="text-blue-600 text-xl" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900">Account Support</h3>
+            <p className="text-sm text-gray-600">Managing your buyer account</p>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto grid gap-8 lg:grid-cols-3">
@@ -102,8 +127,9 @@ export default function ContactSupport() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="general">General Inquiry</option>
-                  <option value="technical">Technical Issue</option>
-                  <option value="billing">Billing Question</option>
+                  <option value="property">Property Questions</option>
+                  <option value="account">Account Help</option>
+                  <option value="viewing">Schedule Viewing</option>
                   <option value="urgent">Urgent Matter</option>
                 </select>
               </div>
