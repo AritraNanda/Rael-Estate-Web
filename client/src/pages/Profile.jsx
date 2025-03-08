@@ -7,12 +7,10 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailur
 import { useDispatch } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Preloader from '../components/Preloader';
 
 
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user);
-  const [loading, setLoading] = useState(true);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);  // Upload progress state
   const [fileUploading, setFileUploading] = useState(false); // Tracks if upload is in progress
@@ -27,26 +25,6 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   //console.log(formData);
-
-  useEffect(() => {
-    const initializeProfile = async () => {
-      try {
-        setLoading(true);
-        // Any initial data fetching can go here
-        setFormData({
-          username: currentUser?.username || '',
-          email: currentUser?.email || '',
-          password: '',
-        });
-      } catch (error) {
-        console.error('Error initializing profile:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initializeProfile();
-  }, [currentUser]);
 
   useEffect(() => {
     if (file) {
@@ -181,10 +159,6 @@ export default function Profile() {
     setIsDeleteModalOpen(false);
   };
   
-  if (loading) {
-    return <Preloader />;
-  }
-
   return (
     <div className="min-h-screen flex flex-col justify-center items-center">
       <ToastContainer position="top-right" autoClose={3000} />
@@ -314,7 +288,7 @@ export default function Profile() {
           >
             <h2 className="text-xl font-bold text-red-600 mb-4">Delete Account</h2>
             <p className="text-gray-700 mb-6">
-              <b>Are you sure</b> you want to delete your account? This action <b>can not be undone</b> and all your data will be permanently removed.
+              Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.
             </p>
             <div className="flex justify-end gap-3">
               <button 
