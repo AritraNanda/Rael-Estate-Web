@@ -4,14 +4,14 @@ import { toast, ToastContainer } from "react-toastify"; // ✅ Import toast
 import "react-toastify/dist/ReactToastify.css"; // ✅ Import toast styles
 import "./SignIn.css"; // Reusing the same styles
 import { useDispatch, useSelector } from 'react-redux'
-import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
+import { signInStart, signInFailure, signInSuccess } from "../redux/user/sellerSlice";  // Changed to sellerSlice
 import OAuth2 from "../components/Oauth2";
 
 export default function SignIn() {
     const [formData, setFormData] = useState({});
     // const [error, setError] = useState(null);
     // const [loading, setLoading] = useState(false);
-    const { loading, error}= useSelector((state)=>state.user);
+    const { loading, error } = useSelector((state) => state.seller);  // Changed to seller state
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -34,6 +34,7 @@ export default function SignIn() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData),
+                credentials: 'include'  // Added to ensure cookies are sent
             });
             const data = await res.json();
             
@@ -41,7 +42,7 @@ export default function SignIn() {
                 // setLoading(false);
                 // setError(data.message);
                 dispatch(signInFailure(data.message));  //redux added
-                toast.error("Invalid email or password"); // ❌ Show error toast
+                toast.error(data.message || "Invalid email or password"); // ❌ Show error toast
                 return;
             }
 
@@ -77,12 +78,9 @@ export default function SignIn() {
                     </button>
                 </form>
 
-                {error && <p className="error">Invalid credentials</p>}
+                {error && <p className="error">{error}</p>}
 
                 <OAuth2/>
-
-
-
 
                 <div className="form-section">
                     <p>
