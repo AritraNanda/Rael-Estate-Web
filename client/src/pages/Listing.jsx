@@ -125,6 +125,18 @@ export default function Listing() {
     }
   };
 
+  // Debug logs for the contact button visibility condition
+  useEffect(() => {
+    if (listing && currentUser) {
+      console.log('Contact Button Debug:');
+      console.log('- currentUser exists:', !!currentUser);
+      console.log('- listing.userRef:', listing.userRef);
+      console.log('- currentUser._id:', currentUser._id);
+      console.log('- Different user check:', listing.userRef !== currentUser._id);
+      console.log('- Final condition:', currentUser && listing.userRef !== currentUser._id);
+    }
+  }, [listing, currentUser]);
+
   if (loading) {
     return <Preloader />;
   }
@@ -338,9 +350,13 @@ export default function Listing() {
 
                 {/* Contact Button */}
                 <div className="mt-8">
+                  {/* Updated button - added check for currentUser explicitly */}
                   {currentUser && listing.userRef !== currentUser._id && !contact && (
                     <button 
-                      onClick={() => setContact(true)} 
+                      onClick={() => {
+                        console.log('Contact button clicked');
+                        setContact(true);
+                      }} 
                       className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 active:bg-blue-800 transition-colors flex items-center justify-center gap-2 font-semibold"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
@@ -349,22 +365,30 @@ export default function Listing() {
                       Contact Landlord
                     </button>
                   )}
+                  
+                  {/* Contact form - added debugging */}
                   {contact && (
                     <div className="mt-4">
+                      {console.log('Rendering Contact component with listing:', listing)}
                       <Contact listing={listing} />
                       <button 
-                        onClick={() => setContact(false)}
+                        onClick={() => {
+                          console.log('Close contact form clicked');
+                          setContact(false);
+                        }}
                         className="w-full mt-4 bg-gray-100 text-gray-700 p-3 rounded-lg hover:bg-gray-200 transition-colors text-sm"
                       >
                         Close Contact Form
                       </button>
                     </div>
                   )}
+                  
                   {!currentUser && (
                     <p className="text-xs text-gray-500 text-center mt-2">
                       Please sign in to contact the property owner
                     </p>
                   )}
+                  
                   {currentUser && listing.userRef === currentUser._id && (
                     <p className="text-xs text-gray-500 text-center">
                       This is your listing

@@ -7,6 +7,7 @@ import listingRouter from './routes/listing.route.js'
 import cookieParser from 'cookie-parser';
 import savedPropertyRouter from './routes/savedProperty.route.js';
 import path from 'path';
+import demoPaymentRouter from './routes/demo.payment.route.js';
 dotenv.config();
 
 mongoose.connect(process.env.MONGO).then(()=>{
@@ -33,6 +34,7 @@ app.use('/api/user',userRouter);
 app.use('/api/auth',authRouter);
 app.use('/api/listing',listingRouter);
 app.use('/api/saved', savedPropertyRouter);
+app.use('/api/demo-payment', demoPaymentRouter);
 
 
 app.use(express.static(path.join(__dirname,'/client/dist')));

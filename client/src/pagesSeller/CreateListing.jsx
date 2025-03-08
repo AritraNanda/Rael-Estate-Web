@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import supabase from '../supabase';
 import { toast, ToastContainer } from 'react-toastify';
 import Preloader from '../components/Preloader';
@@ -10,6 +10,8 @@ export default function CreateListing() {
     const { currentSeller } = useSelector((state) => state.seller); 
     const navigate = useNavigate();
     const [files, setFiles] = useState([]);
+    const [subscription, setSubscription] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
       imageUrls: [],
       name: '',
@@ -27,7 +29,32 @@ export default function CreateListing() {
     const [imageUploadError, setImageUploadError] = useState('');
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+      const checkSubscription = async () => {
+        try {
+          const res = await fetch('/api/demo-payment/subscription-status', {
+            credentials: 'include'
+          });
+          const data = await res.json();
+          
+          // if (!data.hasActiveSubscription) {
+          //   toast.error('You need an active subscription to create listings');
+          //   setTimeout(() => navigate('/seller/subscription'), 2000);
+          //   return;
+          // }
+          
+          setSubscription(data.subscription);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error checking subscription:', error);
+          toast.error('Failed to verify subscription status');
+          setTimeout(() => navigate('/seller/subscription'), 2000);
+        }
+      };
+
+      checkSubscription();
+    }, [navigate]);
 
     //console.log(formData);
   
@@ -169,6 +196,23 @@ export default function CreateListing() {
   
   if (loading) {
     return <Preloader />;
+  }
+  
+  if (!subscription) {
+    return (
+      <div className="min-h-screen py-8 px-4">
+        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 text-center">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Subscription Required</h2>
+          <p className="text-gray-600 mb-6">You need an active subscription to create property listings.</p>
+          <Link
+            to="/seller/subscription"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            View Subscription Plans
+          </Link>
+        </div>
+      </div>
+    );
   }
   
   return (

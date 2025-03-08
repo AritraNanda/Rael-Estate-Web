@@ -12,7 +12,8 @@ import {
   FaChair,
   FaMapMarkerAlt,
   FaParking,
-  FaEdit
+  FaEdit,
+  FaLock
 } from 'react-icons/fa';
 import { MdVerified } from 'react-icons/md';
 
@@ -22,12 +23,13 @@ export default function ListingPreview() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
   const params = useParams();
   const { currentSeller } = useSelector((state) => state.seller);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchListing = async () => {
+    const fetchListingAndSubscription = async () => {
       try {
         if (!params.listingId) {
           throw new Error('No listing ID provided');
@@ -37,6 +39,14 @@ export default function ListingPreview() {
         setError(false);
         setErrorMessage('');
 
+        // Fetch subscription status
+        const subRes = await fetch('/api/demo-payment/subscription-status', {
+          credentials: 'include'
+        });
+        const subData = await subRes.json();
+        setHasActiveSubscription(subData.hasActiveSubscription);
+
+        // Fetch listing details
         const response = await fetch(`/api/listing/get/${params.listingId}`);
         const data = await response.json();
 
@@ -52,7 +62,7 @@ export default function ListingPreview() {
           throw new Error('Invalid data received from server');
         }
       } catch (error) {
-        console.error('Error in fetchListing:', error);
+        console.error('Error:', error);
         setError(true);
         setErrorMessage(error.message || 'Failed to fetch listing details');
       } finally {
@@ -60,7 +70,7 @@ export default function ListingPreview() {
       }
     };
 
-    fetchListing();
+    fetchListingAndSubscription();
   }, [params.listingId, currentSeller._id, navigate]);
 
   if (loading) {
@@ -69,16 +79,17 @@ export default function ListingPreview() {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <h2 className="text-2xl font-bold text-red-600 mb-4">Oops! Something went wrong</h2>
-        <p className="text-gray-600 mb-2">We couldn't load the listing details.</p>
-        <p className="text-sm text-gray-500">{errorMessage}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Try Again
-        </button>
+      <div className="min-h-screen py-8 px-4">
+        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 text-center">
+          <h2 className="text-2xl font-semibold text-red-600 mb-4">Error</h2>
+          <p className="text-gray-600 mb-6">{errorMessage}</p>
+          <Link
+            to="/seller/my-listings"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Back to My Listings
+          </Link>
+        </div>
       </div>
     );
   }
@@ -249,13 +260,31 @@ export default function ListingPreview() {
 
                 {/* Edit Button */}
                 <div className="mt-8">
-                  <Link
-                    to={`/seller/update-listing/${listing._id}`}
-                    className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 active:bg-blue-800 transition-colors flex items-center justify-center gap-2 font-semibold"
-                  >
-                    <FaEdit className="text-xl" />
-                    Edit Property
-                  </Link>
+                  {hasActiveSubscription ? (
+                    <Link
+                      to={`/seller/update-listing/${listing._id}`}
+                      className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 active:bg-blue-800 transition-colors flex items-center justify-center gap-2 font-semibold"
+                    >
+                      <FaEdit className="text-xl" />
+                      Edit Property
+                    </Link>
+                  ) : (
+                    <div className="space-y-4">
+                      <button
+                        disabled
+                        className="w-full bg-gray-400 text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 font-semibold cursor-not-allowed"
+                      >
+                        <FaLock className="text-xl" />
+                        Editing Locked
+                      </button>
+                      <p className="text-sm text-gray-600 text-center">
+                        You need an active subscription to edit listings.{' '}
+                        <Link to="/seller/subscription" className="text-blue-600 hover:underline">
+                          Get Subscription
+                        </Link>
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

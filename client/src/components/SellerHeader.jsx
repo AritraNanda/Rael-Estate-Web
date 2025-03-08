@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FiLogOut, FiUser, FiList } from "react-icons/fi"; 
+import { FiLogOut, FiUser, FiList, FiCreditCard } from "react-icons/fi"; 
 import { useSelector, useDispatch } from "react-redux";
 import {
   signOutSellerStart,
   signOutSellerSuccess,
   signOutSellerFailure,
 } from "../redux/user/sellerSlice";
+import { FaCrown } from 'react-icons/fa';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { currentSeller } = useSelector((state) => state.seller);
+  const { currentUser } = useSelector((state) => state.user);
+  const [subscription, setSubscription] = useState(null);
 
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
@@ -30,6 +33,24 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        const res = await fetch('/api/demo-payment/subscription-status');
+        const data = await res.json();
+        if (data.success) {
+          setSubscription(data.subscription);
+        }
+      } catch (error) {
+        console.error('Error fetching subscription:', error);
+      }
+    };
+
+    if (currentUser) {
+      fetchSubscription();
+    }
+  }, [currentUser]);
 
   const handleSignOut = async () => {
     try {
@@ -91,11 +112,16 @@ export default function Header() {
               <Link to="/seller/guide" className="text-gray-700 hover:text-blue-600">
                 Guide
               </Link>
+              <Link to="/seller/subscription" className="text-gray-700 hover:text-blue-600">
+                Plans
+              </Link>
               <Link to="/seller/contact-support" className="text-gray-700 hover:text-blue-600">
                 Contact
               </Link>
 
-              {/* Create Listing Button (YouTube Style) */}
+               
+
+              {/* Create Listing Button */}
               <Link to="/seller/create-listing">
                 <button title="Create Listing" className={`border border-gray-300 text-black font-medium hover:bg-gray-100 transition-all duration-300 ${
                   isScrolled ? 'md:px-3 md:py-1.5 md:text-sm' : 'md:px-4 md:py-2'
@@ -134,6 +160,14 @@ export default function Header() {
                         >
                           <FiList className="text-xl" />
                           My Listings
+                        </Link>
+                        <Link
+                          to="/seller/my-subscription"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          <FiCreditCard className="text-xl" />
+                          My Subscription
                         </Link>
                         <button
                           className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
@@ -203,12 +237,40 @@ export default function Header() {
               Guide
             </Link>
             <Link
+              to="/seller/subscription"
+              className="text-gray-700 hover:text-blue-600 font-bold"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Plans
+            </Link>
+            <Link
               to="/seller/contact-support"
               className="text-gray-700 hover:text-blue-600 font-bold"
               onClick={() => setIsMenuOpen(false)}
             >
               Contact
             </Link>
+
+            {/* Add Subscription Status to Mobile Menu */}
+            {subscription ? (
+              <Link
+                to="/seller/my-subscription"
+                className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FaCrown className="text-lg" />
+                <span>Subscription Status</span>
+              </Link>
+            ) : (
+              <Link
+                to="/seller/subscription"
+                className="text-blue-600 hover:text-blue-800 flex items-center gap-2 font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <FaCrown className="text-lg" />
+                <span>Get Premium</span>
+              </Link>
+            )}
 
             {/* Profile and Sign Out Options */}
             {currentSeller ? (

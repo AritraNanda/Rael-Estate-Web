@@ -1,5 +1,5 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Landing from './components/landing';
 import BuyerLayout from './layouts/BuyerLayout';
 import SellerLayout from './layouts/SellerLayout';
@@ -26,6 +26,23 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            theme: {
+              primary: '#4aed88',
+            },
+          },
+        }}
+      />
       <Routes>
         {/* Landing Page (No Header) */}
         <Route path="/" element={<Landing />} />

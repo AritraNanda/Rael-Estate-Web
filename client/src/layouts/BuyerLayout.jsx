@@ -12,7 +12,7 @@ import Search from '../pages/Search';
 import ListingItem from '../components/ListingItem';
 import GuideBuyer from '../pages/GuideBuyer';
 
-import PrivateRoute from '../components/privateRoute';
+import PrivateRoute from '../components/PrivateRoute';
 
 const BuyerLayout = () => {
   return (

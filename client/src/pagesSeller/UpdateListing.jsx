@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import supabase from '../supabase';
 import { toast, ToastContainer } from 'react-toastify';
 import Preloader from '../components/Preloader';
@@ -9,6 +9,7 @@ export default function UpdateListing() {
     const { currentSeller } = useSelector((state) => state.seller); 
     const navigate = useNavigate();
     const params = useParams();
+    const [subscription, setSubscription] = useState(null);
     const [files, setFiles] = useState([]);
     const [formData, setFormData] = useState({
       imageUrls: [],
@@ -27,13 +28,27 @@ export default function UpdateListing() {
     const [imageUploadError, setImageUploadError] = useState('');
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const fetchListing = async () => {
-        const listingId = params.listingId;
+      const checkSubscriptionAndFetchListing = async () => {
         try {
-          setLoading(true);
+          // Check subscription status first
+          const subRes = await fetch('/api/demo-payment/subscription-status', {
+            credentials: 'include'
+          });
+          const subData = await subRes.json();
+          
+          if (!subData.hasActiveSubscription) {
+            toast.error('You need an active subscription to update listings');
+            setTimeout(() => navigate('/seller/subscription'), 2000);
+            return;
+          }
+          
+          setSubscription(subData.subscription);
+
+          // Then fetch listing details
+          const listingId = params.listingId;
           const res = await fetch(`/api/listing/get/${listingId}`);
           const data = await res.json();
           
@@ -52,13 +67,14 @@ export default function UpdateListing() {
           setError(false);
         } catch (error) {
           setError('Failed to fetch listing details');
-          console.error('Error fetching listing:', error);
+          console.error('Error:', error);
         } finally {
           setLoading(false);
         }
       };
-      fetchListing();
-    }, [params.listingId, currentSeller._id]);
+
+      checkSubscriptionAndFetchListing();
+    }, [params.listingId, currentSeller._id, navigate]);
 
     // Handle image upload
     const handleImageSubmit = async (e) => {
@@ -197,6 +213,23 @@ export default function UpdateListing() {
   
   if (loading) {
     return <Preloader />;
+  }
+  
+  if (!subscription) {
+    return (
+      <div className="min-h-screen py-8 px-4">
+        <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 text-center">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Subscription Required</h2>
+          <p className="text-gray-600 mb-6">You need an active subscription to update property listings.</p>
+          <Link
+            to="/seller/subscription"
+            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            View Subscription Plans
+          </Link>
+        </div>
+      </div>
+    );
   }
   
   return (
