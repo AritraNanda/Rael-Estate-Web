@@ -58,17 +58,13 @@ export default function Contact({ listing }) {
     return <div>No listing data provided</div>;
   }
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center p-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
   return (
     <>
-      {seller ? (
+      {loading ? (
+        <div className="flex justify-center items-center p-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      ) : seller ? (
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className="bg-blue-50 p-4 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
