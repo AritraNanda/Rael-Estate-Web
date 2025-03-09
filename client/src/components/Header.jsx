@@ -219,7 +219,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md p-4 flex flex-col space-y-4">
+          <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md p-4 flex flex-col space-y-4 z-50">
             <Link
               to="/buyer/"
               className="text-gray-700 hover:text-blue-600 font-bold"

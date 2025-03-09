@@ -214,7 +214,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md p-4 flex flex-col space-y-4">
+          <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md p-4 flex flex-col space-y-4 z-50">
             <Link
               to="/seller"
               className="text-gray-700 hover:text-blue-600 font-bold"
@@ -252,7 +252,7 @@ export default function Header() {
             </Link>
 
             {/* Add Subscription Status to Mobile Menu */}
-            {subscription ? (
+            {/* {subscription ? (
               <Link
                 to="/seller/my-subscription"
                 className="text-blue-600 hover:text-blue-800 flex items-center gap-2"
@@ -270,7 +270,7 @@ export default function Header() {
                 <FaCrown className="text-lg" />
                 <span>Get Premium</span>
               </Link>
-            )}
+            )} */}
 
             {/* Profile and Sign Out Options */}
             {currentSeller ? (
