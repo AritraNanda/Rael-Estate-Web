@@ -146,7 +146,7 @@ export default function SavedProperties() {
                 </div>
                 <div className='flex justify-between items-center'>
                   <p className='text-lg font-bold text-blue-600'>
-                    ₹{(listing.offer ? listing.discountPrice : listing.regularPrice).toLocaleString('en-US')}
+                    ₹{(listing.offer ? listing.discountPrice : listing.regularPrice).toLocaleString('en-IN')}
                     {listing.type === 'rent' && <span className='text-sm text-gray-500'>/month</span>}
                   </p>
                   {listing.offer && (

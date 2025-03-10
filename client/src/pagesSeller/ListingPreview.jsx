@@ -152,7 +152,7 @@ export default function ListingPreview() {
                       <>
                         <div className="flex items-center justify-end gap-2 mb-1">
                           <span className="text-3xl font-bold text-blue-600">
-                            ₹{listing.discountPrice.toLocaleString('en-US')}
+                            ₹{listing.discountPrice.toLocaleString('en-IN')}
                             {listing.type === 'rent' && (
                               <span className="text-sm text-gray-500 ml-1">/month</span>
                             )}
@@ -160,7 +160,7 @@ export default function ListingPreview() {
                         </div>
                         <div className="flex items-center justify-end gap-3">
                           <span className="text-lg text-gray-400 line-through">
-                            ₹{listing.regularPrice.toLocaleString('en-US')}
+                            ₹{listing.regularPrice.toLocaleString('en-IN')}
                             {listing.type === 'rent' && (
                               <span> /month</span>
                             )}
@@ -173,7 +173,7 @@ export default function ListingPreview() {
                     ) : (
                       <div className="flex items-center justify-end gap-2">
                         <span className="text-3xl font-bold text-blue-600">
-                          ₹{listing.regularPrice.toLocaleString('en-US')}
+                          ₹{listing.regularPrice.toLocaleString('en-IN')}
                         </span>
                         {listing.type === 'rent' && (
                           <span className="text-sm text-gray-500 ml-1">/month</span>

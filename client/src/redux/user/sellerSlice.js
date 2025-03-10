@@ -4,6 +4,7 @@ const initialState = {
   currentSeller: null,
   error: null,
   loading: false,
+  subscription: null,
 };
 
 const sellerSlice = createSlice({
@@ -30,6 +31,7 @@ const sellerSlice = createSlice({
     },
     signOutSellerSuccess: (state) => {
       state.currentSeller = null;
+      state.subscription = null;
       state.loading = false;
       state.error = null;
     },
@@ -58,12 +60,21 @@ const sellerSlice = createSlice({
     },
     deleteSellerSuccess: (state) => {
       state.currentSeller = null;
+      state.subscription = null;
       state.loading = false;
       state.error = null;
     },
     deleteSellerFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    },
+
+    // Subscription reducers
+    setSubscription: (state, action) => {
+      state.subscription = action.payload;
+    },
+    clearSubscription: (state) => {
+      state.subscription = null;
     },
   },
 });
@@ -81,6 +92,8 @@ export const {
   deleteSellerStart,
   deleteSellerSuccess,
   deleteSellerFailure,
+  setSubscription,
+  clearSubscription,
 } = sellerSlice.actions;
 
 export default sellerSlice.reducer;

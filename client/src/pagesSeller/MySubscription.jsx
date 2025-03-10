@@ -1,17 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSubscription } from '../redux/user/sellerSlice';
 import Preloader from '../components/Preloader';
 import { toast } from 'react-hot-toast';
 
 export default function MySubscription() {
-  const [subscription, setSubscription] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { currentSeller } = useSelector((state) => state.seller);
+  const dispatch = useDispatch();
+  const { currentSeller, subscription: reduxSubscription } = useSelector((state) => state.seller);
+
+  // Function to get subscription from cookie
+  const getSubscriptionFromCookie = () => {
+    try {
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('seller_subscription='));
+      
+      if (cookieValue) {
+        const subscriptionData = JSON.parse(decodeURIComponent(cookieValue.split('=')[1]));
+        //console.log('Subscription data from cookie:', subscriptionData);
+        return subscriptionData;
+      }
+    } catch (err) {
+      //console.error('Error parsing subscription cookie:', err);
+    }
+    return null;
+  };
 
   useEffect(() => {
     const fetchSubscriptionData = async () => {
@@ -23,10 +42,27 @@ export default function MySubscription() {
         return;
       }
 
+      // First check if we have subscription in Redux
+      if (reduxSubscription) {
+        //console.log('Using subscription from Redux store:', reduxSubscription);
+      } else {
+        // Then try to get subscription from cookie
+        const cookieSubscription = getSubscriptionFromCookie();
+        if (cookieSubscription) {
+          //console.log('Using subscription from cookie:', cookieSubscription);
+          // Store in Redux for future use
+          dispatch(setSubscription(cookieSubscription));
+        }
+      }
+
       try {
-        // Fetch subscription status
+        // Fetch subscription status from API
         const subRes = await fetch('/api/demo-payment/subscription-status', {
-          credentials: 'include'
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
         });
         
         if (!subRes.ok) {
@@ -37,10 +73,20 @@ export default function MySubscription() {
         }
         
         const subData = await subRes.json();
+        //console.log('Subscription data from API:', subData);
+
+        if (subData.success && subData.subscription) {
+          // Update Redux with the latest subscription data
+          dispatch(setSubscription(subData.subscription));
+        }
 
         // Fetch transaction history
         const transRes = await fetch('/api/demo-payment/history', {
-          credentials: 'include'
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          }
         });
         
         if (!transRes.ok) {
@@ -48,19 +94,22 @@ export default function MySubscription() {
         }
         
         const transData = await transRes.json();
+        //console.log('Transaction data:', transData);
 
-        if (subData.success) {
-          setSubscription(subData.subscription);
-        }
         if (transData.success) {
           setTransactions(transData.transactions);
         }
       } catch (err) {
-        setError(err.message);
-        toast.error(err.message);
+        //console.error('Error fetching subscription data:', err);
         
-        if (err.message.includes('sign in')) {
-          setTimeout(() => navigate('/seller/signin'), 2000);
+        // If we have subscription data in Redux or cookie, don't show an error
+        if (!reduxSubscription && !getSubscriptionFromCookie()) {
+          setError(err.message);
+          toast.error(err.message);
+          
+          if (err.message.includes('sign in')) {
+            setTimeout(() => navigate('/seller/signin'), 2000);
+          }
         }
       } finally {
         setLoading(false);
@@ -68,11 +117,14 @@ export default function MySubscription() {
     };
 
     fetchSubscriptionData();
-  }, [currentSeller, navigate]);
+  }, [currentSeller, navigate, dispatch, reduxSubscription]);
 
   if (loading) return <Preloader />;
 
-  if (error) {
+  // Use subscription from Redux or cookie
+  const subscription = reduxSubscription || getSubscriptionFromCookie();
+
+  if (error && !subscription) {
     return (
       <div className="p-8 max-w-6xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-6 text-center">

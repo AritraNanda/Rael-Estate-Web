@@ -65,8 +65,8 @@ export default function ListingItem({ listing }) {
               <FaRupeeSign className='text-blue-600' />
               <span className='text-lg font-bold text-gray-900'>
                 {listing.offer
-                  ? listing.discountPrice.toLocaleString('en-US')
-                  : listing.regularPrice.toLocaleString('en-US')}
+                  ? listing.discountPrice.toLocaleString('en-IN')
+                  : listing.regularPrice.toLocaleString('en-IN')}
                 {listing.type === 'rent' && <span className='text-sm text-gray-600'>/month</span>}
               </span>
             </div>

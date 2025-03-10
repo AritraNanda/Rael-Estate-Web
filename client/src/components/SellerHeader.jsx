@@ -297,6 +297,15 @@ export default function Header() {
                   <FiList className="text-xl" />
                   My Listings
                 </Link>
+                <Link
+                  to="/seller/my-subscription"
+                  className="text-gray-700 hover:text-blue-600 flex items-center gap-2"
+                  onClick={() => setIsDropdownOpen(false)}
+                >
+                  <FiCreditCard className="text-xl" />
+                  My Subscription
+                </Link>
+
                 <button
                   className="text-gray-700 hover:text-blue-600 flex items-center gap-2"
                   onClick={handleSignOut}

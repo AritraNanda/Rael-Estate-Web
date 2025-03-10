@@ -33,7 +33,7 @@ router.post('/process', verifyToken2, async (req, res) => {
     
     if (isSuccessCard) {
       // Calculate subscription dates
-      const { startDate, endDate } = await Subscription.calculateSubscriptionDates(req.user.id, duration);
+      const { startDate, endDate } = await Subscription.calculateSubscriptionDates(req.user.id, duration, 'seller');
 
       // Create or update subscription
       const subscription = new Subscription({
@@ -56,6 +56,22 @@ router.post('/process', verifyToken2, async (req, res) => {
       // Update subscription with payment ID
       subscription.lastPaymentId = transaction._id;
       await subscription.save();
+
+      // Store subscription data in a cookie
+      const subscriptionData = {
+        id: subscription._id.toString(),
+        planType: subscription.planType,
+        status: subscription.status,
+        startDate: subscription.startDate,
+        endDate: subscription.endDate,
+        amount: subscription.amount
+      };
+      
+      res.cookie('seller_subscription', JSON.stringify(subscriptionData), {
+        httpOnly: false, // Allow JavaScript access
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        path: '/'
+      });
 
       res.status(200).json({
         success: true,
@@ -87,6 +103,14 @@ router.post('/process', verifyToken2, async (req, res) => {
 // Get subscription status
 router.get('/subscription-status', verifyToken2, async (req, res) => {
   try {
+    // Make sure we have a valid user ID from the token
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      });
+    }
+
     const subscription = await Subscription.findOne({
       userId: req.user.id,
       userType: 'seller',
@@ -94,12 +118,34 @@ router.get('/subscription-status', verifyToken2, async (req, res) => {
       endDate: { $gt: new Date() }
     }).sort({ createdAt: -1 });
     
+    // If subscription found, update the cookie
+    if (subscription) {
+      const subscriptionData = {
+        id: subscription._id.toString(),
+        planType: subscription.planType,
+        status: subscription.status,
+        startDate: subscription.startDate,
+        endDate: subscription.endDate,
+        amount: subscription.amount
+      };
+      
+      res.cookie('seller_subscription', JSON.stringify(subscriptionData), {
+        httpOnly: false, // Allow JavaScript access
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        path: '/'
+      });
+    } else {
+      // Clear the cookie if no active subscription
+      res.clearCookie('seller_subscription');
+    }
+    
     res.status(200).json({
       success: true,
       hasActiveSubscription: !!subscription,
       subscription
     });
   } catch (error) {
+    console.error('Error fetching subscription status:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching subscription status',
@@ -111,6 +157,14 @@ router.get('/subscription-status', verifyToken2, async (req, res) => {
 // Get transaction history
 router.get('/history', verifyToken2, async (req, res) => {
   try {
+    // Make sure we have a valid user ID from the token
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      });
+    }
+
     const transactions = await Transaction.find({
       userId: req.user.id,
       userType: 'seller',
@@ -124,6 +178,7 @@ router.get('/history', verifyToken2, async (req, res) => {
       transactions
     });
   } catch (error) {
+    console.error('Error fetching transaction history:', error);
     res.status(500).json({
       success: false,
       message: 'Error fetching transaction history',
