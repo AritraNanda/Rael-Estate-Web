@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/adminSlice';
 import { toast } from 'react-toastify';
 
 const SignIn = () => {
@@ -11,15 +11,15 @@ const SignIn = () => {
     ssnKey: ''
   });
   
-  const { loading, currentUser, error } = useSelector((state) => state.user);
+  const { loading, currentAdmin, error } = useSelector((state) => state.admin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentAdmin) {
       navigate('/staff');
     }
-  }, [currentUser, navigate]);
+  }, [currentAdmin, navigate]);
 
   // Show error toast when error state changes
   useEffect(() => {

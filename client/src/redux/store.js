@@ -30,6 +30,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './user/userSlice'; // Buyer slice
 import sellerReducer from './user/sellerSlice'; // Seller slice
+import adminReducer from './user/adminSlice'; // Admin slice
 
 // Persist config for buyer (user)
 const buyerPersistConfig = {
@@ -45,10 +46,18 @@ const sellerPersistConfig = {
   version: 1,
 };
 
+// Persist config for admin
+const adminPersistConfig = {
+  key: 'admin', // Key for admin data in localStorage
+  storage,
+  version: 1,
+};
+
 // Combine reducers with persist
 const rootReducer = combineReducers({
   user: persistReducer(buyerPersistConfig, userReducer), // Buyer slice
   seller: persistReducer(sellerPersistConfig, sellerReducer), // Seller slice
+  admin: persistReducer(adminPersistConfig, adminReducer), // Admin slice
 });
 
 // Create store

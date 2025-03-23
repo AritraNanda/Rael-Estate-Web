@@ -53,7 +53,7 @@ export const adminLogin = async (req, res, next) => {
         role: admin.role,
         emp_id: admin.emp_id
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET3,
       { expiresIn: '12h' }
     );
 

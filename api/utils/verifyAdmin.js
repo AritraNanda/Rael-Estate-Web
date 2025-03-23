@@ -11,7 +11,7 @@ export const verifyAdminToken = async (req, res, next) => {
 
   try {
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET3);
 
     // Check if user exists and is an admin
     const admin = await Admin.findById(decoded.id).select('-password');

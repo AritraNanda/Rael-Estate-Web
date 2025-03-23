@@ -9,14 +9,14 @@ import Settings from '../pagesStaff/Settings';
 import Analytics from '../pagesStaff/Analytics';
 import Notifications from '../pagesStaff/Notifications';
 import { useSelector, useDispatch } from 'react-redux';
-import { signOutUserStart, signOutUserSuccess, signOutUserFailure } from '../redux/user/userSlice';
+import { signOutAdminStart, signOutAdminSuccess, signOutAdminFailure } from '../redux/user/adminSlice';
 import { toast } from 'react-toastify';
 
 const StaffLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { currentUser: admin } = useSelector(state => state.user);
+  const { currentAdmin: admin } = useSelector(state => state.admin);
 
   // Function to check if a path is active
   const isActivePath = (path) => {
@@ -35,7 +35,7 @@ const StaffLayout = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signOutUserStart());
+      dispatch(signOutAdminStart());
       
       const res = await fetch('/api/admin/logout', {
         method: 'GET',
@@ -44,7 +44,7 @@ const StaffLayout = () => {
       const data = await res.json();
       
       if (data.success) {
-        dispatch(signOutUserSuccess());
+        dispatch(signOutAdminSuccess());
         toast.success('Logged out successfully', {
           position: 'top-right',
           autoClose: 2000,
@@ -57,7 +57,7 @@ const StaffLayout = () => {
           navigate('/staff/signin');
         }, 2000);
       } else {
-        dispatch(signOutUserFailure(data.message));
+        dispatch(signOutAdminFailure(data.message));
         toast.error(data.message || 'Error logging out', {
           position: 'top-right',
           autoClose: 3000,
@@ -68,7 +68,7 @@ const StaffLayout = () => {
         });
       }
     } catch (error) {
-      dispatch(signOutUserFailure(error.message));
+      dispatch(signOutAdminFailure(error.message));
       toast.error('Error logging out. Please try again.', {
         position: 'top-right',
         autoClose: 3000,
@@ -83,6 +83,12 @@ const StaffLayout = () => {
   // If the current path is signin, render only the SignIn component
   if (location.pathname === '/staff/signin') {
     return <SignIn />;
+  }
+
+  // Redirect to signin if not authenticated
+  if (!admin) {
+    navigate('/staff/signin');
+    return null;
   }
 
   // Otherwise render the staff layout with sidebar
