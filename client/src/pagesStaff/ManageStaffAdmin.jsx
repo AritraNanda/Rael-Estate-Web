@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 import { FaTrash } from 'react-icons/fa';
 
 const ManageStaffAdmin = () => {
@@ -38,7 +38,10 @@ const ManageStaffAdmin = () => {
         setStaffList(data.data);
       }
     } catch (error) {
-      toast.error('Error fetching staff list');
+      toast.error('Error fetching staff list', {
+        position: 'top-right',
+        autoClose: 3000
+      });
     }
   };
 
@@ -50,7 +53,10 @@ const ManageStaffAdmin = () => {
         setAdminList(data.data);
       }
     } catch (error) {
-      toast.error('Error fetching admin list');
+      toast.error('Error fetching admin list', {
+        position: 'top-right',
+        autoClose: 3000
+      });
     }
   };
 
@@ -69,12 +75,18 @@ const ManageStaffAdmin = () => {
       if (!data.success) {
         throw new Error(data.message);
       }
-      toast.success('Staff member added successfully!');
+      toast.success('Staff member added successfully!', {
+        position: 'top-right',
+        autoClose: 3000
+      });
       setShowStaffModal(false);
       setStaffFormData({ name: '', email: '', emp_id: '', password: '' });
       fetchStaffList(); // Refresh the list
     } catch (error) {
-      toast.error(error.message || 'Error adding staff member');
+      toast.error(error.message || 'Error adding staff member', {
+        position: 'top-right',
+        autoClose: 3000
+      });
     } finally {
       setLoading(false);
     }
@@ -95,12 +107,18 @@ const ManageStaffAdmin = () => {
       if (!data.success) {
         throw new Error(data.message);
       }
-      toast.success('Admin added successfully!');
+      toast.success('Admin added successfully!', {
+        position: 'top-right',
+        autoClose: 3000
+      });
       setShowAdminModal(false);
       setAdminFormData({ name: '', email: '', emp_id: '', password: '', ssn: '' });
       fetchAdminList(); // Refresh the list
     } catch (error) {
-      toast.error(error.message || 'Error adding admin');
+      toast.error(error.message || 'Error adding admin', {
+        position: 'top-right',
+        autoClose: 3000
+      });
     } finally {
       setLoading(false);
     }
@@ -115,13 +133,19 @@ const ManageStaffAdmin = () => {
       });
       const data = await res.json();
       if (data.success) {
-        toast.success('Staff member deleted successfully');
+        toast.success('Staff member deleted successfully', {
+          position: 'top-right',
+          autoClose: 3000
+        });
         fetchStaffList(); // Refresh the list
       } else {
         throw new Error(data.message);
       }
     } catch (error) {
-      toast.error(error.message || 'Error deleting staff member');
+      toast.error(error.message || 'Error deleting staff member', {
+        position: 'top-right',
+        autoClose: 3000
+      });
     }
   };
 
@@ -134,13 +158,19 @@ const ManageStaffAdmin = () => {
       });
       const data = await res.json();
       if (data.success) {
-        toast.success('Admin deleted successfully');
+        toast.success('Admin deleted successfully', {
+          position: 'top-right',
+          autoClose: 3000
+        });
         fetchAdminList(); // Refresh the list
       } else {
         throw new Error(data.message);
       }
     } catch (error) {
-      toast.error(error.message || 'Error deleting admin');
+      toast.error(error.message || 'Error deleting admin', {
+        position: 'top-right',
+        autoClose: 3000
+      });
     }
   };
 
