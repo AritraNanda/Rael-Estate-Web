@@ -79,7 +79,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Dark Gradient Background */}
-      <div className="relative h-[85vh] overflow-hidden">
+      <div className="relative h-[93vh] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 animate-gradient-x">
           <div className="absolute inset-0 bg-[url('https://transparenttextures.com/patterns/carbon-fibre.png')] opacity-30" />
           <div className="absolute inset-0 bg-black/40" /> {/* Additional overlay for darkness */}
