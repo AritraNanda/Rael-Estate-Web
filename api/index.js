@@ -8,6 +8,12 @@ import cookieParser from 'cookie-parser';
 import savedPropertyRouter from './routes/savedProperty.route.js';
 import path from 'path';
 import demoPaymentRouter from './routes/demo.payment.route.js';
+import staffRoutes from './routes/staff.route.js';
+import cors from 'cors';
+import transactionRoutes from './routes/transaction.route.js';
+import subscriptionPlanRoutes from './routes/subscriptionPlan.route.js';
+import adminRouter from './routes/admin.route.js';
+
 dotenv.config();
 
 mongoose.connect(process.env.MONGO).then(()=>{
@@ -23,8 +29,8 @@ const __dirname = path.resolve();
 const app = express();
 
 app.use(express.json());
-
 app.use(cookieParser());
+app.use(cors());
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000!!");
@@ -35,6 +41,10 @@ app.use('/api/auth',authRouter);
 app.use('/api/listing',listingRouter);
 app.use('/api/saved', savedPropertyRouter);
 app.use('/api/demo-payment', demoPaymentRouter);
+app.use('/api/staff', staffRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/subscription-plans', subscriptionPlanRoutes);
+app.use('/api/admin', adminRouter);
 
 
 app.use(express.static(path.join(__dirname,'/client/dist')));

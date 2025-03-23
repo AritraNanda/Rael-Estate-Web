@@ -120,3 +120,28 @@ export const getListings = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getRecentListings = async (req, res, next) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 15;
+    const skip = (page - 1) * limit;
+
+    const listings = await Listing.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('userRef', 'username email');
+
+    // Get total count for determining if there are more listings
+    const total = await Listing.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      listings,
+      hasMore: skip + listings.length < total
+    });
+  } catch (error) {
+    next(error);
+  }
+};

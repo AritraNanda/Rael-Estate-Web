@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Landing from './components/landing';
 import BuyerLayout from './layouts/BuyerLayout';
 import SellerLayout from './layouts/SellerLayout';
 import { useEffect, useState } from 'react';
 import Preloader from './components/Preloader';
-
+import StaffLayout from './layouts/StaffLayout';
 
 export default function App() {
 
@@ -26,22 +27,17 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-          success: {
-            duration: 3000,
-            theme: {
-              primary: '#4aed88',
-            },
-          },
-        }}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
       <Routes>
         {/* Landing Page (No Header) */}
@@ -52,6 +48,9 @@ export default function App() {
 
         {/* Seller Routes */}
         <Route path="/seller/*" element={<SellerLayout />} />
+
+        {/* Staff Routes */}
+        <Route path="/staff/*" element={<StaffLayout />} />
       </Routes>
     </BrowserRouter>
   );
