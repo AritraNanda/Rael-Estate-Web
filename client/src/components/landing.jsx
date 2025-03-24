@@ -149,7 +149,7 @@ const Landing = () => {
                 <h3 className="text-xl font-semibold mb-3 text-blue-800">Staff</h3>
                 <p className="text-gray-600 mb-6">Access staff management tools</p>
                 <Link 
-                  to="/staff/signin" 
+                  to="/staff-employee/signin" 
                   className="inline-flex items-center justify-center w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-md hover:from-blue-600 hover:to-blue-800 transition duration-200 shadow-md hover:shadow-lg"
                 >
                   <LogIn className="mr-2 h-4 w-4" />
