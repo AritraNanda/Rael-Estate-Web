@@ -130,3 +130,23 @@ npm start
 ```
 
 ## 📁 Project Structure
+
+Rael-Estate-Web/
+├── public/                # Static assets
+│   ├── images/            # Property and UI images
+│   └── index.html         # Main HTML template
+├── src/                   # Application source code
+│   ├── assets/            # Additional assets (icons, logos)
+│   ├── components/        # Reusable UI components
+│   │   ├── Header/        # Navigation header
+│   │   ├── PropertyCard/  # Individual property listing component
+│   │   └── Search/        # Search functionality components
+│   ├── pages/             # Main application views
+│   │   ├── Home/          # Landing page with featured properties
+│   │   ├── Properties/    # Full property listings
+│   │   └── Property/      # Detailed property view
+│   ├── styles/            # Global styling and CSS modules
+│   ├── App.js             # Main application component
+│   └── index.js           # Application entry point
+├── package.json           # Project dependencies and scripts
+└── README.md              # Project documentation
