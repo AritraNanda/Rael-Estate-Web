@@ -144,3 +144,30 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
+
+// Add the findUserByEmail controller function
+export const findUserByEmail = async (req, res, next) => {
+  try {
+    const email = req.query.email;
+    
+    if (!email) {
+      return next(errorHandler(400, 'Email parameter is required'));
+    }
+    
+    const user = await Seller.findOne({ email }).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Seller not found with this email'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    next(error);
+  }
+};

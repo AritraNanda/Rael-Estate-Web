@@ -7,6 +7,7 @@ import SellerLayout from './layouts/SellerLayout';
 import { useEffect, useState } from 'react';
 import Preloader from './components/Preloader';
 import StaffLayout from './layouts/StaffLayout';
+import StaffEmployeeLayout from './layouts/StaffEmployeeLayout';
 
 export default function App() {
 
@@ -49,8 +50,11 @@ export default function App() {
         {/* Seller Routes */}
         <Route path="/seller/*" element={<SellerLayout />} />
 
-        {/* Staff Routes */}
+        {/* Staff Routes (Admin) */}
         <Route path="/staff/*" element={<StaffLayout />} />
+        
+        {/* Staff Employee Routes */}
+        <Route path="/staff-employee/*" element={<StaffEmployeeLayout />} />
       </Routes>
     </BrowserRouter>
   );
