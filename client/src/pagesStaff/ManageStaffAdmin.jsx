@@ -64,14 +64,20 @@ const ManageStaffAdmin = () => {
     e.preventDefault();
     try {
       setLoading(true);
+      console.log('Submitting staff data:', staffFormData);
+      
       const res = await fetch('/api/staff/create-staff', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(staffFormData),
+        credentials: 'include', // Add this to include cookies in the request
       });
+      
       const data = await res.json();
+      console.log('Staff creation response:', data);
+      
       if (!data.success) {
         throw new Error(data.message);
       }
@@ -83,6 +89,7 @@ const ManageStaffAdmin = () => {
       setStaffFormData({ name: '', email: '', emp_id: '', password: '' });
       fetchStaffList(); // Refresh the list
     } catch (error) {
+      console.error('Staff creation error:', error);
       toast.error(error.message || 'Error adding staff member', {
         position: 'top-right',
         autoClose: 3000
@@ -96,14 +103,20 @@ const ManageStaffAdmin = () => {
     e.preventDefault();
     try {
       setLoading(true);
+      console.log('Submitting admin data:', adminFormData);
+      
       const res = await fetch('/api/staff/create-admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(adminFormData),
+        credentials: 'include', // Add this to include cookies in the request
       });
+      
       const data = await res.json();
+      console.log('Admin creation response:', data);
+      
       if (!data.success) {
         throw new Error(data.message);
       }
@@ -115,6 +128,7 @@ const ManageStaffAdmin = () => {
       setAdminFormData({ name: '', email: '', emp_id: '', password: '', ssn: '' });
       fetchAdminList(); // Refresh the list
     } catch (error) {
+      console.error('Admin creation error:', error);
       toast.error(error.message || 'Error adding admin', {
         position: 'top-right',
         autoClose: 3000
