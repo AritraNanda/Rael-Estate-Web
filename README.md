@@ -1,7 +1,3 @@
-Primary Link: https://estatebro.onrender.com/
-
-Alternative Link: https://estatebro123.onrender.com/
-
 🏠 Real Estate Platform - Full Stack Web Application
 
 A comprehensive real estate platform built with modern web technologies, offering a seamless experience for property listings, user management, and real estate transactions.
